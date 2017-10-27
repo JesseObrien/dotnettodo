@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace todoapi.Models {
     public class TodoItem {
@@ -8,6 +9,7 @@ namespace todoapi.Models {
             LastModifiedAt = now;
             CreatedAt = now;
         }
+        [Key, Required]
         public long Id { get; set; }
         public string Name { get; set; }
         public bool IsComplete { get; set; }
