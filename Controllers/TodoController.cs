@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.JsonPatch;
 using todoapi.Models;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace todoapi.Controllers {
     [Route("api/[controller]")]
@@ -20,13 +22,14 @@ namespace todoapi.Controllers {
         }
 
         [HttpGet]
-        public IEnumerable<TodoItem> GetAll()
+        public async Task<IEnumerable<TodoItem>> GetAll()
         {
-            return _context.TodoItems.ToList();
+            return await _context.TodoItems.Include(x => x.Tags).ToListAsync();
         }
 
         [HttpGet("{id}", Name = "GetTodo")]
-        public IActionResult GetById(long id) {
+        public IActionResult GetById(long id)
+        {
             var item = _context.TodoItems.FirstOrDefault(t => t.Id == id);
             if (item == null) {
                 return NotFound();

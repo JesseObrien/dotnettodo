@@ -7,9 +7,10 @@ namespace todoapi.Models
    public class TodoContext : DbContext {
        public TodoContext(DbContextOptions<TodoContext> options) : base(options) {}
 
-       public DbSet<TodoItem> TodoItems { get; set; }
+        public DbSet<TodoItem> TodoItems { get; set; }
+        public DbSet<Tag> Tags { get; set; }
 
-       public override int SaveChanges() {
+        public override int SaveChanges() {
             var objectStateEntries = ChangeTracker.Entries()
                 .Where (t => t.State == EntityState.Modified || t.State == EntityState.Added).ToList();
 
