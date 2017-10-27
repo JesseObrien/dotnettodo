@@ -26,7 +26,12 @@ namespace todoapi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
+            
+            var connectionString = Configuration.GetConnectionString("TodoContext");
+            services.AddEntityFrameworkNpgsql().AddDbContext<TodoContext>(options => options.UseNpgsql(connectionString));
+
+            // use for testing or something
+            // services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
             services.AddMvc();
             services.AddSwaggerGen(c =>
             {
